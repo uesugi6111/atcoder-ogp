@@ -6,7 +6,7 @@
     <meta property="og:image" content="{{image_url}}" />
 
     <script type="text/javascript">
-        setTimeout(() => location.href = '{{url}}', 0);
+        setTimeout(() => location.href = document.getElementsByTagName('meta')[1].content, 0);
     </script>
 </head>
 <a href="{{url}}">リダイレクトしない場合はこちらをクリック</a>
