@@ -5,6 +5,8 @@ use serde::Serialize;
 const USER_SELECTER: &str = "table > tbody > tr:nth-child(3) > td > a:nth-child(1)";
 const PROBLEM_SELECTER: &str = "table > tbody > tr:nth-child(2) > td > a:nth-child(1)";
 const TITLE_SELECTER: &str = "#main-container > div.row > div:nth-child(2) > p:nth-child(1) > span";
+const IMAGE_URL: &str =
+    "https://jobs.img.atcoder.jp/company/atcoder/22e0e825aef7d8df994bb9f2b4e22996.png";
 
 #[derive(Debug, Serialize)]
 pub struct TargetPage {
@@ -34,7 +36,7 @@ fn extract_target(url: &str, html: &str) -> TargetPage {
         url: url.to_string(),
         title: format!("{} {} by {}", problem_name, submit_id, user_name),
         description: String::new(),
-        image_url: String::new(),
+        image_url: IMAGE_URL.to_string(),
     }
 }
 fn get_inner_html(html: &Html, selecter: &str) -> String {
