@@ -8,7 +8,7 @@ pub fn init_template() -> Tera {
     tera
 }
 
-pub fn card<T: serde::Serialize>(tera: &Tera, context: T) -> String {
+pub fn card<T: serde::Serialize>(tera: &Tera, context: &T) -> String {
     let context = tera::Context::from_serialize(context).unwrap();
     tera.render("card.html.tera", &context).unwrap()
 }
@@ -27,7 +27,7 @@ mod test {
     fn card_test() {
         let a = card(
             &TEMPLETES,
-            crate::crawl::TargetPage {
+            &crate::crawl::TargetPage {
                 url: "aiueo".to_string(),
                 title: "kakikukeko".to_string(),
                 description: "sashisuseso".to_string(),
