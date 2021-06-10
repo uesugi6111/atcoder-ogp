@@ -1,18 +1,14 @@
 use lambda_runtime::{error::HandlerError, lambda, Context};
 
 use atcoder_ogp::{run, Output};
-use serde_json::Value;
 
 async fn handler(
     event: std::collections::HashMap<String, String>,
     context: Context,
 ) -> Result<Output, HandlerError> {
     Ok(run(event, context).await.unwrap_or_else(|e| {
-        Output({
-            let mut a = std::collections::HashMap::new();
-            a.insert("message".to_string(), Value::String(e.to_string()));
-            a
-        })
+        println!("{}",e);
+        Output::new("エラーが発生しました<a href=\"https://twitter.com/takeda_SE\">uesugi</a>までお問い合わせください。")
     }))
 }
 
