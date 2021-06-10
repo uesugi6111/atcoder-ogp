@@ -1,0 +1,12 @@
+<head>
+    <meta name="twitter:card" content="summary" />
+    <meta property="og:url" content="{{url}}" />
+    <meta property="og:title" content="{{title}}" />
+    <meta property="og:description" content="{{description}}" />
+    <meta property="og:image" content="{{image_url}}" />
+
+    <script type="text/javascript">
+        setTimeout(() => location.href = '{{url}}', 0);
+    </script>
+</head>
+<a href="{{url}}">リダイレクトしない場合はこちらをクリック</a>
