@@ -31,11 +31,12 @@ fn extract_target(url: &str, html: &str) -> TargetPage {
     let user_name = get_inner_html(&html_element, USER_SELECTER);
     let problem_name = get_inner_html(&html_element, PROBLEM_SELECTER);
     let submit_id = get_inner_html(&html_element, TITLE_SELECTER);
+    let description = generate_description(&html_element);
 
     TargetPage {
         url: url.to_string(),
         title: format!("{} {} by {}", problem_name, submit_id, user_name),
-        description: String::new(),
+        description,
         image_url: IMAGE_URL.to_string(),
     }
 }
@@ -45,6 +46,27 @@ fn get_inner_html(html: &Html, selecter: &str) -> String {
         Some(e) => e.inner_html(),
         None => "取得失敗".to_string(),
     }
+}
+fn generate_description(html: &Html) -> String {
+    let ss = "table > tbody > tr > th:nth-child(1) ";
+    let sss = "table > tbody > tr > td:nth-child(2) ";
+
+    let th_selecter = Selector::parse(ss).unwrap();
+    let td_selecter = Selector::parse(sss).unwrap();
+
+    let th = html.select(&th_selecter).collect::<Vec<_>>();
+    let td = html.select(&td_selecter).collect::<Vec<_>>();
+
+    (0..9)
+        .map(|i| format!("{} : {}, ", get_inner_text(&th[i]), get_inner_text(&td[i])))
+        .collect::<String>()
+}
+fn get_inner_text(e: &scraper::ElementRef) -> String {
+    let mut a = e.children().next().unwrap();
+    while a.has_children() {
+        a = a.first_child().unwrap();
+    }
+    a.value().as_text().unwrap().text.to_string()
 }
 
 #[cfg(test)]
