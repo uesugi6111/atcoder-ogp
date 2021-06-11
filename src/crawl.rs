@@ -30,12 +30,16 @@ fn extract_target(url: &str, html: &str) -> TargetPage {
 
     let user_name = get_inner_html(&html_element, USER_SELECTER);
     let problem_name = get_inner_html(&html_element, PROBLEM_SELECTER);
-    let submit_id = get_inner_html(&html_element, TITLE_SELECTER);
+    let _submit_id = get_inner_html(&html_element, TITLE_SELECTER);
+    let contest_name = get_inner_html(&html_element, "#navbar-collapse > ul:nth-child(1) > li > a");
     let description = generate_description(&html_element);
 
     TargetPage {
         url: url.to_string(),
-        title: format!("{} {} by {}", problem_name, submit_id, user_name),
+        title: format!(
+            "提出 - {} - {} by {}",
+            contest_name, problem_name, user_name
+        ),
         description,
         image_url: IMAGE_URL.to_string(),
     }
@@ -57,7 +61,7 @@ fn generate_description(html: &Html) -> String {
     let th = html.select(&th_selecter).collect::<Vec<_>>();
     let td = html.select(&td_selecter).collect::<Vec<_>>();
 
-    (0..9)
+    (1..9)
         .map(|i| format!("{} : {}, ", get_inner_text(&th[i]), get_inner_text(&td[i])))
         .collect::<String>()
 }
