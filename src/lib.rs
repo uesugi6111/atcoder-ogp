@@ -7,20 +7,28 @@ use serde::Serialize;
 use serde_json::Map;
 use template::{card, TEMPLETES};
 
+const ATCODER_URL: &str = "https://atcoder.jp";
+
 #[derive(Debug, Serialize)]
 pub struct Output {
     #[serde(rename = "statusCode")]
     status_code: u64,
+    headers: Headers,
+    body: String,
+}
+#[derive(Debug, Serialize)]
+struct Headers {
     #[serde(rename = "Content-Type")]
     content_type: String,
-    body: String,
 }
 
 impl Output {
     pub fn new(body: &str) -> Self {
         Output {
             status_code: 200,
-            content_type: "text/html".to_string(),
+            headers: Headers {
+                content_type: "text/html".to_string(),
+            },
             body: body.to_string(),
         }
     }
@@ -37,16 +45,11 @@ pub async fn run(
 }
 
 fn get_url(event: &Map<String, serde_json::Value>) -> String {
-    event
-        .get("queryStringParameters")
-        .unwrap()
-        .as_object()
-        .unwrap()
-        .get("url")
-        .unwrap()
-        .as_str()
-        .unwrap()
-        .to_string()
+    format!(
+        "{}{}",
+        ATCODER_URL,
+        event.get("rawPath").unwrap().as_str().unwrap()
+    )
 }
 
 #[cfg(test)]
@@ -56,7 +59,7 @@ mod tests {
 {
     "version": "2.0",
     "routeKey": "ANY /myapp",
-    "rawPath": "/default/myapp",
+    "rawPath": "/contests/abc204/submissions/23259725",
     "rawQueryString": "url=https://atcoder.jp/contests/abc204/submissions/23259725",
     "headers": {
         "accept-encoding": "gzip, deflate, br",
