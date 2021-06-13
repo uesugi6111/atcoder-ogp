@@ -2,7 +2,7 @@
 AtCoder の提出のリンクをTwitterに貼る際にCard を付けます
 
 例
-![sample image](/docs/sample_image.png)
+![sample image](/docs/card_sample.png)
 
 ## 使い方
 元の提出からドメインを変更
