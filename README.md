@@ -1,7 +1,7 @@
 # atcoder-ogp
 AtCoder の提出のリンクをTwitterに貼る際にCard を付けます
 
-例
+例  
 ![sample image](/docs/card_sample.png)
 
 ## 使い方
