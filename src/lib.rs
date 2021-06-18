@@ -63,7 +63,7 @@ mod tests {
 {
     "version": "2.0",
     "routeKey": "ANY /myapp",
-    "rawPath": "/contests/abc204/submissionns/23259725",
+    "rawPath": "/contests/abc204/submissions/23259725",
     "rawQueryString": "url=https://atcoder.jp/contests/abc204/submissions/23259725",
     "headers": {
         "accept-encoding": "gzip, deflate, br",
