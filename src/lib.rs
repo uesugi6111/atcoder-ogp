@@ -39,10 +39,10 @@ pub async fn run(
 ) -> Result<Output, Box<dyn std::error::Error>> {
     let param = get_url(event);
     println!("{}", param);
-    let target_page = crawl(&param).await?;
     if !param.contains("/submissions/") {
         return Ok(Output::new(&index(&TEMPLETES)));
     }
+    let target_page = crawl(&param).await?;
 
     let body = card(&TEMPLETES, &target_page);
     Ok(Output::new(&body))
@@ -63,7 +63,7 @@ mod tests {
 {
     "version": "2.0",
     "routeKey": "ANY /myapp",
-    "rawPath": "/contests/abc204/submissions/23259725",
+    "rawPath": "/contests/abc204/submissionns/23259725",
     "rawQueryString": "url=https://atcoder.jp/contests/abc204/submissions/23259725",
     "headers": {
         "accept-encoding": "gzip, deflate, br",
