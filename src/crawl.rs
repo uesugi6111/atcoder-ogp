@@ -1,4 +1,4 @@
-use anyhow::Result;
+use anyhow::{bail, Result};
 use scraper::{Html, Selector};
 use serde::Serialize;
 
@@ -18,23 +18,23 @@ pub struct TargetPage {
 
 pub async fn crawl(url: &str) -> Result<TargetPage> {
     let html = fetch_page(url).await?;
-    Ok(extract_target(url, &html))
+    Ok(extract_target(url, &html)?)
 }
 async fn fetch_page(url: &str) -> Result<String> {
     let body = reqwest::get(url).await?.text().await?;
     Ok(body)
 }
 
-fn extract_target(url: &str, html: &str) -> TargetPage {
+fn extract_target(url: &str, html: &str) -> Result<TargetPage> {
     let html_element = scraper::Html::parse_document(html);
 
     let user_name = get_inner_html(&html_element, USER_SELECTER);
     let problem_name = get_inner_html(&html_element, PROBLEM_SELECTER);
     let _submit_id = get_inner_html(&html_element, TITLE_SELECTER);
     let contest_name = get_inner_html(&html_element, "#navbar-collapse > ul:nth-child(1) > li > a");
-    let description = generate_description(&html_element);
+    let description = generate_description(&html_element)?;
 
-    TargetPage {
+    Ok(TargetPage {
         url: url.to_string(),
         title: format!(
             "提出 - {} - {} by {}",
@@ -42,7 +42,7 @@ fn extract_target(url: &str, html: &str) -> TargetPage {
         ),
         description,
         image_url: IMAGE_URL.to_string(),
-    }
+    })
 }
 fn get_inner_html(html: &Html, selecter: &str) -> String {
     let selecter = Selector::parse(selecter).unwrap();
@@ -51,7 +51,7 @@ fn get_inner_html(html: &Html, selecter: &str) -> String {
         None => "取得失敗".to_string(),
     }
 }
-fn generate_description(html: &Html) -> String {
+fn generate_description(html: &Html) -> Result<String> {
     let ss = "table > tbody > tr > th:nth-child(1) ";
     let sss = "table > tbody > tr > td:nth-child(2) ";
 
@@ -60,10 +60,12 @@ fn generate_description(html: &Html) -> String {
 
     let th = html.select(&th_selecter).collect::<Vec<_>>();
     let td = html.select(&td_selecter).collect::<Vec<_>>();
-
-    (1..9)
+    if th.len() < 8 || td.len() < 8 {
+        bail!("対象が取得できませんでした");
+    }
+    Ok((1..9)
         .map(|i| format!("{} : {}, ", get_inner_text(&th[i]), get_inner_text(&td[i])))
-        .collect::<String>()
+        .collect::<String>())
 }
 fn get_inner_text(e: &scraper::ElementRef) -> String {
     let mut a = e.children().next().unwrap();
