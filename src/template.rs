@@ -13,6 +13,11 @@ pub fn card<T: serde::Serialize>(tera: &Tera, context: &T) -> String {
     tera.render("card.html.tera", &context).unwrap()
 }
 
+pub fn index(tera: &Tera) -> String {
+    tera.render("index.html.tera", &tera::Context::new())
+        .unwrap()
+}
+
 #[cfg(test)]
 mod test {
     use super::*;

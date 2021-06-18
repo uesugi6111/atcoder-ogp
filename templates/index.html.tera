@@ -1,0 +1,20 @@
+<head>
+    <meta name="twitter:card" content="summary" />
+    <meta property="og:title" content="AtCoder-OGP" />
+    <meta property="og:description" content="AtCoderの提出にogpを追加するサービスです" />
+    <meta property="og:image" content="https://pbs.twimg.com/profile_images/1405918236328173573/cCieGr9g_400x400.jpg" />
+    <title>atcoder-ogp</title>
+</head>
+
+<h1>atcoder-ogp</h1>
+AtCoderの提出にogpを追加するサービスです。<br>
+URLの生成に失敗しています。<br><br><br>
+
+提出URLの前半部分を書き換えてください<br>
+https://atcoder.jp/contests/XXXXX/submissions/XXXXXXXXXX<br>
+↓<br>
+https://atcoder-ogp.uesugi.app/contests/XXXXX/submissions/XXXXXXXXXX<br>
+<br>
+エラー、ご不明な点、お問い合わせは<a href=\"https://twitter.com/takeda_SE\">uesugi</a>まで
+<br>
+<a href="https://github.com/uesugi6111/atcoder-ogp">github</a>

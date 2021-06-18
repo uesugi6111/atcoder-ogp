@@ -5,7 +5,7 @@ use crawl::crawl;
 use serde::Serialize;
 
 use serde_json::Map;
-use template::{card, TEMPLETES};
+use template::{card, index, TEMPLETES};
 
 const ATCODER_URL: &str = "https://atcoder.jp";
 
@@ -35,10 +35,14 @@ impl Output {
 }
 
 pub async fn run(
-    event: serde_json::Map<String, serde_json::Value>,
+    event: &serde_json::Map<String, serde_json::Value>,
 ) -> Result<Output, Box<dyn std::error::Error>> {
-    let param = get_url(&event);
+    let param = get_url(event);
+    println!("{}", param);
     let target_page = crawl(&param).await?;
+    if !param.contains("/submissions/") {
+        return Ok(Output::new(&index(&TEMPLETES)));
+    }
 
     let body = card(&TEMPLETES, &target_page);
     Ok(Output::new(&body))
@@ -90,7 +94,7 @@ mod tests {
     }
     #[tokio::test]
     async fn test_all() -> Result<(), Box<dyn std::error::Error>> {
-        let output = run(serde_json::from_str(SAMPLE_JSON).unwrap()).await?;
+        let output = run(&serde_json::from_str(SAMPLE_JSON).unwrap()).await?;
         dbg!(&output);
         println!("{}", output.body);
         Ok(())
