@@ -27,7 +27,7 @@ impl Output {
         Output {
             status_code: 200,
             headers: Headers {
-                content_type: "text/html".to_string(),
+                content_type: "text/html; charset=UTF-8".to_string(),
             },
             body: body.to_string(),
         }
